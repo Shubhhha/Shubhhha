@@ -1,136 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<style>
+.errClass{
+	border:solid red;
+}
+.sClass{
+	border:solid blue;
+}
+</style>
+<?php 
+if(@$_REQUEST['submit']){
+	echo "<pre>";
+	print_r($_REQUEST);
+	if(empty($_REQUEST['name'])){
+		$ncls="errClass";
+	}
+	else{
+		$ncls="sClass";
+	}
+	if(empty($_REQUEST['email'])){
+		$ecls="errClass";
+	}
+	else{
+		$email = filter_var($_REQUEST['email'], FILTER_SANITIZE_EMAIL);
 
-
-<h2>Student Information</h2>
-
-<form action="" method="POST" onsubmit=" return Myfun()" name="forms">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="stu_name" name="fname" value=""><span id="message" style="color: red;"></span><br>
-  <label for="lname">Last name:</label><br>
-   <input type="text" id="last_name" name="lname" value=""><span id="message1" style="color: red;"></span><br>
-   
-  <!--    <label for="gender"><b>Gender</b></label><br>
-      <input type="checkbox" id="check" name="container" value="">
-  <label for=""> Male</label><br>
-  <input type="checkbox" id="check1" name="containercontainer" value=""><span id="message4" style="color: red;"></span><br4
-  <label for=""> Female</label><br>
-  <input type="checkbox" id="check2" name="container" value="">
-  <label for=""> other</label><br><br>
-  <label for="">Choose a Course:</label>
-<select id="select" name="" form="">
-  <option value="">Science</option>
-  <option value="">Bio</option>
-  <option value="">Commerce</option>
-  <option value="">Art</option>
-</select><br><br> -->
-<label>Mobile Number</label><br>
-<input type="text" id="mobile" value="" name="Mobile_Number" /><span id="message2" style="color: red;"></span><br>
- 
-  <input type="submit" value="Submit" name="submit" onclick="Myfun()">
-</form> 
-
-<script>
-	
-	function Myfun(){
-		var correct_way = /^[A-Za-z]+$/;
-		var name = document.getElementById("stu_name").value;
-		 var lastName=document.getElementById("last_name").value;
-		 var  mob=document.getElementById("mobile").value;
-		if (name==""){
-			console.log(name);
-         document.getElementById("message").innerHTML = "***pls fill full name";
-         return false ;
-		}
-		else if(name.length<3){
-         document.getElementById("message").innerHTML = "***name must be 3 character";
-           return false ;
-
-		}
-		else if(name.length>20){
-         document.getElementById("message").innerHTML = "***name must be les than 20 character";
-           return false ;
-		}
-		 
-	
-		else if (lastName==""){
-		 	console.log(lastName);
-         document.getElementById("message1").innerHTML = "***pls fill last name";
-         return false ;
-		}
-		else if(lastName.length<3){
-         document.getElementById("message1").innerHTML = "***name must be 3 character";
-           return false ;
-
-		}
-		else if(lastName.length>20){
-         document.getElementById("message1").innerHTML = "***name must be les than 20 character";
-           return false ;
-		}
-		// else if(lastName.match(correct_way)){
-    
-		// 	return true;
-		// }
-		//   	else {
-		// 	 document.getElementById("message1").innerHTML = "***only alphabets are allowed";
-		// 	 return false;
-		// }
-
-
+			// Validate email
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				//echo $email." is a valid email address";
+				$ecls="sClass";
+			} else {
+				$ecls="errClass";
+				//echo $email." is not a valid email address";
+			}
 		
-  // mobile number validation
-
-else if(mob==""){
-			console.log(mob);
-         document.getElementById("message2").innerHTML = "***pls enter mobile number";
-         return false ;
+		
+	}
 }
-else if(isNaN(mob)){
-			console.log(mob);
-         document.getElementById("message2").innerHTML = "***enter only numeric values";
-         return false ;
-}
-else if(mob.length<10){
-         document.getElementById("message2").innerHTML = "***mobile number must be 10 digit";
-       return false ;
-}
-else if(mob.length>10){
-         document.getElementById("message2").innerHTML = "***mobile number must be 10 digit";
-       return false ;
-}
- 
-  }
-</script>
-
-
-
+?>
+<body>
+<form action="" method="post">
+<input type="text" name="name" class="<?php if(@$ncls) echo $ncls; ?>" value="<?php if(@$_REQUEST['name']) echo $_REQUEST['name']; ?>" />
+<input type="text" name="email" class="<?php if(@$ecls) echo $ecls; ?>" value="<?php if(@$_REQUEST['email']) echo $_REQUEST['email']; ?>"/>
+<input type="submit" name="submit" value="submit" />
+ </form>
 </body>
 </html>
-
-<?php
-include 'connection.php';
-
-
-if(isset($_POST['submit'])){
-	$firstName = $_POST['fname'];
-	$lastName = $_POST['lname'];
-	$mobileNumber = $_POST['Mobile_Number'];
-
-$insert_query = "INSERT INTO  registration(first_name,last_name,moble_number) VALUES('$firstName','$lastName','$mobileNumber')";
-$result = mysqli_query($con,$insert_query);
-
- if($result){
-	?>
-	<script type="text/javascript">
-		alert("data inserted properly");
-	</script>
-	<?php
-}
-else{
-	?>
-	<script type="text/javascript">
-		alert("data not inserted properly");
-	</script>
-	<?php
-}
-
-}
-	?>
