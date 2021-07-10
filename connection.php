@@ -1,12 +1,8 @@
 <?php 
-$username= "root";
-$password="";
-$server = "localhost";
-$db= "studentinfo";
+ 
+ $con = mysqli_connect("localhost","root","","perform");
+ if($con){
+ //	echo "connection successfull";
+ }
 
-$con= mysqli_connect($server,$username,$password,$db);
-
-if($con) {
-	echo "connection successfully";
-}
 ?>
