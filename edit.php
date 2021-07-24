@@ -1,145 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>practise form</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+	.errorclass{
+		border: 2px solid red;
+	}
+</style>
+<body>
+	<?php 
+    include 'connection.php';
+     include 'edit_submit.php';
+     $id = $_GET['sid'];
+    $q = "SELECT * FROM register WHERE id = '".$id."' " ;
+    $result = mysqli_query($con,$q);
+    $resp = mysqli_fetch_assoc($result);
+  //  print_r($resp);
+    ?>
+    <div class="container">
+    	<div class="jumbotron">
+    		<div class="row">
+    			<div class="col-md-6">
+    				<form method="post" action="" enctype="multipart/form-data">
+    					<div class="form-group">
+                     <input type="hidden" name="id" value="<?php echo @$id ; ?>">
+    						<label>Name:</label>
+    					    <input type="text" name="name" value="<?php echo @$resp['name'] ; ?>" class="form-control <?php if(isset($nerr)){echo  'errorclass';}  ?>" placeholder="Enter your name" >
+    					</div>
+                <?php if(@$span1){echo $span1;}?>
+    					<div class="form-group">
+    						<label>Email:</label>
+    					    <input type="email" name="email" value="<?php echo @$resp['email']  ; ?>"class="form-control <?php if(@($eerr)){echo 'errorclass';} ?>" placeholder="Enter your email">
+    					</div>
+                <?php if(@$span2){echo $span2;}  ?>
+    					<div class="form-group">
+    						<label>Mobile:</label>
+    					    <input type="number" name="mobile" value="<?php echo @$resp['mobile']; ?>" class="form-control <?php if(@($merr)){echo 'errorclass';} ?>" placeholder="Enter your mobile number">
+    					</div>
+               <?php if(@$span3){echo $span3;}  ?>
+    					<div class="form-group">
+    						<label>Address:</label>
+    					  <textarea type="text" name="address" class="form-control <?php if(@$aerr){echo 'errorclass';} ?>" placeholder="Enter your address"><?php echo @$resp['address']; ?></textarea>
+    					</div>
+    					<div class="">
+    						<label>Select your Gender: &nbsp </label>
+    						<input type="radio" name="gender" value="male"  <?php  if(@$resp['gender'] == 'male'){ echo "checked";}   ?>>Male:
+    						<input type="radio" name="gender" value="female" <?php if(@$resp['gender']=='female'){echo "checked";} ?>>Female:
+    						<input type="radio" name="gender" value="other" <?php if(@$resp['gender']=='other'){echo "checked";} ?>>Other:
+    					</div>
+    					<?php if(@$span){echo $span;}  ?>
+    					<div>
+    						<label>Select your language &nbsp</label>
+    						<input type="checkbox" name="language[]" value="english" <?php if(@$resp['language']){ $arr=explode(",",$resp['language']); foreach($arr as $key=>$val) {if($val=="english") echo "checked";}} ?>>Engish
+    						<input type="checkbox" name="language[]" value="hindi" <?php if(@$resp['language']){ $arr = explode(",",$resp['language']); foreach($arr as $key=>$val){if($val=="hindi")echo "checked";}} ?>>Hindi
+    						<input type="checkbox" name="language[]" value="tamil" <?php if(@$resp['language']){$arr =explode(",",$resp['language']); foreach($arr as $key=>$val) {if($val=="tamil") echo "checked";}} ?>>Tamil
+    					</div>
+                        <?php if(@$span4){echo $span4;}?>
+                        <div class="">
+                        	<select name="branch">
+                        		<option value="">Select your branch</option>
+                        		<option value="Electrical" <?php if(@$resp['branch']=='Electrical'){echo "selected";}?>>Electrical</option>
+                        		<option value="Mechanical" <?php if(@$resp['branch']=='Mechanical'){echo "selected";} ?>>Mechanical</option>
+                        		<option value="Electronics and Communication" <?php if(@$resp['branch']=='Electronics and Communication'){echo "selected";}   ?>>Electronics and communication</option>
+                        		<option value="Computer science" <?php if(@$resp['branch']=='Computer science'){echo "selected";}   ?>>computer science</option>
+                        	</select>
+                        </div>
+                         <?php if(@$span5){echo $span5;}  ?><br>
 
-<h2>Student Information</h2>
-
-<?php
-include 'connection.php';
-$ids =$_GET['id'];
-$showquery="select * from registration where id={$ids}";
-$showdata= mysqli_query($con,$showquery);
-$arraydata=mysqli_fetch_array($showdata);
-
-if(isset($_POST['submit'])){
-	$idupdate =$_GET['id'];
-	$firstName = $_POST['fname'];
-	$lastName = $_POST['lname'];
-	$mobileNumber = $_POST['Mobile_Number'];
-
-/* $insert_query = "INSERT INTO  registration(first_name,last_name,moble_number) VALUES('$firstName','$lastName','$mobileNumber')";
-$result = mysqli_query($con,$insert_query); */
-
-$query = " update registration set id=$idupdate,first_name='$firstName' ,last_name='$lastName ',moble_number='$mobileNumber' where id=$idupdate";
-
-$result = mysqli_query($con,$query);
- if($result){
-	?>
-	<script type="text/javascript">
-		alert("data updated properly");
-	</script>
-	<?php
-}
-else{
-	?>
-	<script type="text/javascript">
-		alert("data not updated properly");
-	</script>
-	<?php
-}
-
-}
-	?>
-
-<form action="" method="POST" onsubmit=" return Myfun()" name="forms">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="stu_name" name="fname" value="<?php echo $arraydata['first_name'];?>"><span id="message" style="color: red;"></span><br>
-  <label for="lname">Last name:</label><br>
-   <input type="text" id="last_name" name="lname" value="<?php echo $arraydata['last_name'];?>"><span id="message1" style="color: red;"></span><br>
-   
-  <!--    <label for="gender"><b>Gender</b></label><br>
-      <input type="checkbox" id="check" name="container" value="">
-  <label for=""> Male</label><br>
-  <input type="checkbox" id="check1" name="containercontainer" value=""><span id="message4" style="color: red;"></span><br4
-  <label for=""> Female</label><br>
-  <input type="checkbox" id="check2" name="container" value="">
-  <label for=""> other</label><br><br>
-  <label for="">Choose a Course:</label>
-<select id="select" name="" form="">
-  <option value="">Science</option>
-  <option value="">Bio</option>
-  <option value="">Commerce</option>
-  <option value="">Art</option>
-</select><br><br> -->
-<label>Mobile Number</label><br>
-<input type="text" id="mobile" value="<?php echo  $arraydata['moble_number'];?>" name="Mobile_Number" /><span id="message2" style="color: red;"></span><br>
- 
-  <input type="submit" value="update" name="submit" onclick="Myfun()">
-</form> 
-
-<script>
-	
-	function Myfun(){
-		var correct_way = /^[A-Za-z]+$/;
-		var name = document.getElementById("stu_name").value;
-		 var lastName=document.getElementById("last_name").value;
-		 var  mob=document.getElementById("mobile").value;
-		if (name==""){
-			console.log(name);
-         document.getElementById("message").innerHTML = "***pls fill full name";
-         return false ;
-		}
-		else if(name.length<3){
-         document.getElementById("message").innerHTML = "***name must be 3 character";
-           return false ;
-
-		}
-		else if(name.length>20){
-         document.getElementById("message").innerHTML = "***name must be les than 20 character";
-           return false ;
-		}
-		 
-	
-		else if (lastName==""){
-		 	console.log(lastName);
-         document.getElementById("message1").innerHTML = "***pls fill last name";
-         return false ;
-		}
-		else if(lastName.length<3){
-         document.getElementById("message1").innerHTML = "***name must be 3 character";
-           return false ;
-
-		}
-		else if(lastName.length>20){
-         document.getElementById("message1").innerHTML = "***name must be les than 20 character";
-           return false ;
-		}
-		// else if(lastName.match(correct_way)){
-    
-		// 	return true;
-		// }
-		//   	else {
-		// 	 document.getElementById("message1").innerHTML = "***only alphabets are allowed";
-		// 	 return false;
-		// }
-
-
-		
-  // mobile number validation
-
-else if(mob==""){
-			console.log(mob);
-         document.getElementById("message2").innerHTML = "***pls enter mobile number";
-         return false ;
-}
-else if(isNaN(mob)){
-			console.log(mob);
-         document.getElementById("message2").innerHTML = "***enter only numeric values";
-         return false ;
-}
-else if(mob.length<10){
-         document.getElementById("message2").innerHTML = "***mobile number must be 10 digit";
-       return false ;
-}
-else if(mob.length>10){
-         document.getElementById("message2").innerHTML = "***mobile number must be 10 digit";
-       return false ;
-}
- 
-  }
-</script>
-
-
-
+                         <input type="file" name="upload"><br>
+                          <?php if(@$span14){echo $span14;}  ?><br>
+                         <input type="submit" name="submit" class="btn btn-success btn-sm">
+                         <input type="reset" name="reset" class="btn btn-primary btn-sm">
+    					
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+    </div>
 </body>
 </html>
-

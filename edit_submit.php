@@ -34,11 +34,11 @@
             $merr="errorclass";
         }else{
         $mobile = $_POST['mobile'];
-      preg_match('/^[0-9]{10}+$/', $mobile);
-      function validate_mobile($mobile)
-    {
-    return preg_match('/^[0-9]{10}+$/', $mobile);
-    }
+    //   preg_match('/^[0-9]{10}+$/', $mobile);
+    //   function validate_mobile($mobile)
+    // {
+    // return preg_match('/^[0-9]{10}+$/', $mobile);
+    // }
 
     if(!preg_match('/^[0-9]{10}+$/', $mobile)){
          $span3 = "<span style = 'color:red;'>please enter valid mobile number</span>";
@@ -72,8 +72,8 @@
         // echo $val;
          $arr[]=$val;
         
-      }
-}
+              }
+        }
       //validation for branch******
       if(!@$_POST['branch']){
          $span5 = "<span style = 'color:red;'>please select your branch</span>";
@@ -101,16 +101,16 @@
      }
 
 
-      if((!@$nerr) && (!@$span1)  && (!@$span2) &&(!@$eerr)&&(!@$merr)&&(!@$span3)&&(!@$aerr)&&(!@$span)&&(!@ $span5)){
+      if((!@$nerr) && (!@$span1)  && (!@$span2) &&(!@$eerr)&&(!@$merr)&&(!@$span3)&&(!@$aerr)&&(!@$span)&&(!@$span5)){
         $new_language = implode(',',$arr);
        // echo $new_language .  $new_name . " " . $new_email. "".$new_mobile." ".$new_gender." ".$new_address."". $new_branch;
+       $id = $_REQUEST['id'];
+     $update_query =" UPDATE `register` SET `name`='".$new_name."',`email`='".$new_email."',`mobile`='".$new_mobile."',`address`='".$new_address."',`gender`='".$new_gender."',`language`='".$new_language."',`branch`='".$new_branch."' WHERE id= '".$id."' ";
+   
+     $perform = mysqli_query($con,$update_query);
+     header('location:display.php');
        
-       
-              $insert_query = "INSERT INTO register(name,email,mobile,address,gender,language,branch)VALUES('$new_name','$new_email','$new_mobile','$new_address','$new_gender','$new_language','$new_branch')";
-        mysqli_query($con,$insert_query);
-    
-       
- header('location:display.php');
+
 
      
        }

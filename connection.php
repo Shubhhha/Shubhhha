@@ -1,8 +1,8 @@
 <?php 
- 
- $con = mysqli_connect("localhost","root","","perform");
- if($con){
- //	echo "connection successfull";
- }
+$con = mysqli_connect("localhost","root","","student");
+if($con){
+	//echo "connection successfull";
+}
+
 
 ?>
