@@ -1,4 +1,5 @@
 <?php 
+session_start();
     include 'connection.php';
     if(isset($_POST['submit'])){
       // print_r($_POST);
@@ -101,14 +102,15 @@
      }
 
 
-      if((!@$nerr) && (!@$span1)  && (!@$span2) &&(!@$eerr)&&(!@$merr)&&(!@$span3)&&(!@$aerr)&&(!@$span)&&(!@ $span5)){
+      if((!@$nerr) && (!@$span1)  && (!@$span2) &&(!@$eerr)&&(!@$merr)&&(!@$span3)&&(!@$aerr)&&(!@$span)&&(!@ $span5)&&(!@$span14)){
         $new_language = implode(',',$arr);
        // echo $new_language .  $new_name . " " . $new_email. "".$new_mobile." ".$new_gender." ".$new_address."". $new_branch;
        
        
-              $insert_query = "INSERT INTO register(name,email,mobile,address,gender,language,branch)VALUES('$new_name','$new_email','$new_mobile','$new_address','$new_gender','$new_language','$new_branch')";
+              $insert_query = "INSERT INTO register(name,email,mobile,address,gender,language,branch,fileupload)VALUES('$new_name','$new_email','$new_mobile','$new_address','$new_gender','$new_language','$new_branch','$newname')";
         mysqli_query($con,$insert_query);
     
+ $_SESSION['message'] = "record inserted sucessfully" ;
        
  header('location:display.php');
 

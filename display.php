@@ -34,8 +34,32 @@
   <thead>
   		<tbody>
   		<?php 
-
+session_start();
 include 'connection.php';
+if(@$_SESSION['message']){  ?>
+   <div class="alert alert-success">
+    <strong>Success!<?php echo $_SESSION['message'];    ?> </strong>
+  </div>
+  <?php
+  unset($_SESSION['message']);
+}
+if(@$_SESSION['message1']){  ?>
+ <div class="alert alert-success">
+    <strong>Success! <?php echo $_SESSION['message1'] ;?>   </strong>
+  </div>
+<?php
+unset($_SESSION['message1']);
+}
+
+if(@$_SESSION['message2']){ ?>
+
+ <div class="alert alert-success">
+    <strong>Success! <?php echo $_SESSION['message2'] ;?>   </strong>
+  </div>
+
+<?php
+unset($_SESSION['message2']) ;
+}
 
 
 $selectquery = "select * from  register";
@@ -61,7 +85,7 @@ while($result=mysqli_fetch_assoc($query)){
     <td><?php echo $result['branch'];?></td>
    
     <td><img src="images/<?php echo $result['fileupload'];?>"  width="100" height="100" ></td> 
-    <td><a href="edit.php?sid=<?php echo  $result['id'];   ?>" class="btn btn-primary">Edit</a> &nbsp <a href="#"  class="btn btn-warning">delete</a></td>      
+    <td><a href="edit.php?sid=<?php echo  $result['id'];   ?>" class="btn btn-primary">Edit</a> &nbsp <a href="delete.php?ids=<?php echo $result['id']; ?>"  class="btn btn-warning">delete</a></td>      
     <?php                                                                        
 }         
 ?>

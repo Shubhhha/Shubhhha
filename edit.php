@@ -19,6 +19,8 @@
 </style>
 <body>
 	<?php 
+  session_start();
+
     include 'connection.php';
      include 'edit_submit.php';
      $id = $_GET['sid'];
@@ -76,8 +78,11 @@
                         	</select>
                         </div>
                          <?php if(@$span5){echo $span5;}  ?><br>
-
-                         <input type="file" name="upload"><br>
+                          <input type="hidden" name="old_pic" value="<?php echo @$resp['fileupload']  ; ?>">
+                            <?php if(!empty($resp['fileupload'])){ ?>
+            <img src="images/<?php echo $resp['fileupload']; ?>" style="height:100px;width:100px;" >
+              <?php } ?>
+                         <input type="file" name="upload" ><br>
                           <?php if(@$span14){echo $span14;}  ?><br>
                          <input type="submit" name="submit" class="btn btn-success btn-sm">
                          <input type="reset" name="reset" class="btn btn-primary btn-sm">
